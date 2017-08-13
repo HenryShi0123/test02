@@ -1,3 +1,4 @@
 ﻿  test01.cpp
-  test01.vcxproj -> E:\HenryPersonal\languageLearn\gitlib\test02\test01\Debug\test01.exe
-  test01.vcxproj -> E:\HenryPersonal\languageLearn\gitlib\test02\test01\Debug\test01.pdb (Partial PDB)
+e:\mycode\cppproj\github\test02\test01\test01\test01.cpp(28): warning C4305: “初始化”: 从“double”到“float”截断
+  test01.vcxproj -> E:\myCode\cppProj\github\test02\test01\Debug\test01.exe
+  test01.vcxproj -> E:\myCode\cppProj\github\test02\test01\Debug\test01.pdb (Partial PDB)
