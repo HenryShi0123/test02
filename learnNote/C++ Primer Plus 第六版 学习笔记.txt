@@ -277,4 +277,66 @@ C++预处理器和iostream文件
 			int len1 = str1.size();
 			int len2 = strlen(charr1);
 		4.3.4 string 类I/O
-		    
+	4.4 结构简介
+	    同一个结构可以存储多种类型的数据。创建结构的步骤。
+	        1. 定义结构描述，描述并标记能够存储在结构中的各种数据类型。
+	        2. 按描述创建结构变量
+	    例如：
+	        struct inflatable {
+	            char name[30];
+	            float volume;
+	            double price;
+	        };
+	    上面的代码定义了一个名为inflatable结构体，可以按照下面的方式创建该类型的变量：
+	        inflatable hat;
+	    在C++中省略struct不会出错。
+	    4.4.1 结构变量初始化
+	        以上面inflatable变量为例：
+	            inflatable hat = {
+	                "henry Shi",
+	                2.1,
+	                32.5    
+	            };
+	         这是C风格的初始化，也可以使用C++11风格的初始化
+	            inflatable hat{"henry Shi", 23.2, 32.3};
+	     4.4.2 结构成员的使用
+	        使用成员符 (.)来使用结构成员，比如要使用hat变量的名称
+	        hat.name;
+	     4.4.3 可以使用其他类类型作为结构成员，比如string类
+	        struct inflatable {
+	            string name;
+	            float volum;
+	            double price;
+	        };
+	    4.4.4 结构数组
+	        可以用结构作为一个类型，构建一个数组。
+	    4.4.6 结构中的位字段
+	        与C语言一样，C++允许指定占用特定位数的结构成员。字段的类型应为整形或枚举，接下来是冒号，冒号
+	    后面是一个数字，指定使用的位数。可以使用没有名称的字段来提供间距。例：
+	        struct torgle_register
+	        {
+	            unsigned int SN : 4; // 4 bits for SN value
+	            unsigned int    : 4; // 4 bits unused
+	            bool goodIn     : 1; // valid input
+	            bool goodTorgle : 1; // successful torgling.  
+	        };   
+	        位段的初始化和访问和结构体一样。
+	4.5 共用体
+	    union one4all {
+	        int int_val;
+	        long long_val;
+	        double double_val;
+	    };
+	4.6 枚举
+	    enum spectrum {
+	        red,
+	        orange,
+	        yellow,
+	        green,
+	        blue,
+	        violet,
+	        indigo,
+	        ultraviolet    
+	    };    
+
+	        
