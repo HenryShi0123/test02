@@ -1,7 +1,29 @@
 #include <iostream>
 #include <climits>
+//#include <cstring>
 #include <string>
 using namespace std;
+
+enum spectrum {
+	red,
+	orange,
+	yellow,
+	green,
+	blue,
+	violet,
+	indigo,
+	ultraviolet
+};
+
+enum bits {
+	one = 1,
+	two = 2,
+	four = 4,
+	eight = 8
+};
+
+
+char * getname(void);
 
 int main(void)
 {
@@ -142,7 +164,7 @@ int main(void)
 	cout << "Year built: " << year << endl;
 	cout << "Address: " << address << endl;
 	cout << "Done!\n";
-#endif
+
 	cout << "\nString class parts...\n";
 	
 	string str1;
@@ -152,10 +174,47 @@ int main(void)
 	cout << "str1 = " << str1 << endl;
 	cout << "str2 = " << str2 << endl;
 	cout << "str1 + str2 = " << str1 + str2 << endl;
+#endif
+
+	spectrum band;
+	band = green;
+	cout << band << endl;
+	//band = 200;
+	//band = red + green;
+	band = spectrum(4);
+	cout << band << endl;
+	
+	bits myflag;
+	myflag = bits(6);
+	cout << myflag << endl;
+
+	char * name;
+	name = getname();
+	cout << name << " at " << (int *)name << "\n";
+	delete name;
+
+	name = getname();
+	cout << name << " at " << (int *)name << "\n";
+	delete name;
+
+
+
 	//Push any kes to quit
 	cout << "Enter any keys to quit.\n";
 	cin.get();
 	cout << "Ready to quit!" << endl;
 	while (i--);
 	return i;
+}
+
+char *getname()
+{
+	char temp[80];
+
+	cout << "Enter last name ";
+	cin >> temp;
+	char * pn = new char[strlen(temp) + 1];
+	//strcpy(pn, temp);
+	strcpy_s(pn, strlen(temp) + 1, temp);
+	return pn;
 }
