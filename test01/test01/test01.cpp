@@ -2,6 +2,9 @@
 #include <climits>
 //#include <cstring>
 #include <string>
+
+#include <ctime>
+
 using namespace std;
 
 enum spectrum {
@@ -198,6 +201,23 @@ int main(void)
 	delete name;
 
 
+
+	cout << "Enter the delay time, in seconds: ";
+	float secs;
+	cin >> secs;
+	clock_t delay = secs * CLOCKS_PER_SEC;
+	cout << "starting\a\n";
+	clock_t start = clock();
+	cout << "start..." << endl;
+	while (clock() - start < delay);
+
+	cout << "Done\a\n";
+
+
+	double prices[5] = { 4.99, 10.99, 6.87, 7.99, 8.49 };
+	for (double x : prices) {
+		cout << x << endl;
+	}
 
 	//Push any kes to quit
 	cout << "Enter any keys to quit.\n";

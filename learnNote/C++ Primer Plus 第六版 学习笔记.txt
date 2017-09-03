@@ -475,4 +475,68 @@ C++预处理器和iostream文件
 		        new和delete运算符提供了一种比自动变量和静态变量更灵活的方法。
 		    
     4.9 类型组合
+    4.10 数组的替代品
+        4.10.1 模板类vector
+            要使用vector对象，必须包含vector头文件。
+            其次vector包含在名称空间std中，因此要使用using编译指令，using声明或std::vector
+            第三，模板使用不同的语法来指出它存储的数据类型。
+            第四，vector类使用不同的语法来指定元素
+            #include <vector>
+            
+            using namespace std;
+            vector<int> vi;
+            int n;
+            cin >> n;
+            vector<double> vd(n);
+            下面的声明创建一个名为vt的vector对象，可存储n_elem个类型位typeName的元素：
+            vector<typename> vt(n_elem);
+        4.10.2 模板类array
+            vector类的功能比数组强大，但是付出的代价是效率稍低。模板类array，效率与数组相同，但比数组
+        更方便，更安全。要创建array对象，需要包含头文件array。
+        
+            #include <array>
+            using name std;
+            array<int, 5> ai; // create array object of 5 ints;
+            array<double, 4> ad = {1.2, 2.1, 3.43, 4.3};
+         4.10.3 比较数组，vector对象和array对象
+第五章 循环和关系表达式
+    for循环
+    表达式和语句
+    递增运算符和递减运算符：++ --
+    组合赋值运算符
+    复合语句（语句块）
+    逗号运算符
+    关系运算符：> >= == < <= & !=
+    while循环
+    typedef工具
+    do while 循环
+    字符输入方法get（）
+    文件尾条件
+    嵌套循环和二维数组
+    5.1 for 循环
+    5.2 while循环
+        5.2.2 等待一段时间：编写延时循环
+            使用系统时钟来完成延时工作会更加的有效果。
+            头文件ctime，定义了一个符号常量 CLOCKS_PER_SEC,该乘凉等于每秒包含的系统时间单位数
+            	cout << "Enter the delay time, in seconds: ";
+            	float secs;
+            	cin >> secs;
+            	clock_t delay = secs * CLOCKS_PER_SEC;
+            	cout << "starting\a\n";
+            	clock_t start = clock();
+            	cout << "start..." << endl;
+            	while (clock() - start < delay);
+            
+            	cout << "Done\a\n";
+    5.3 do while循环
+        首先执行循环体，然后再判断测试表达式，决定是否继续执行循环。
+    5.4 基于范围的for循环
+        C++11 新增了一种循环：基于范围（range-based)的for循环。这简化了一种常见的循环任务：对数组
+    （或容器类,如vector和array）的每个元素执行相同的操作，如下：
+        double prices[5] = {4.99, 10.99, 6.87, 7,99,  8,49};
+        for (double x:prices) 
+            cout << x << std :: endl;
+    5.5 循环和文本输入
+        
+                
 			
