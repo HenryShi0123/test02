@@ -537,6 +537,21 @@ C++预处理器和iostream文件
         for (double x:prices) 
             cout << x << std :: endl;
     5.5 循环和文本输入
-        
-                
-			
+        循环最常见，最重要的任务：逐字符地读取来自文件或键盘的文本。
+        cin对象支持三种不同模式的单字符输入，其用户接口各不相同。
+		5.5.1 使用原始的cin进行输入
+			使用哨兵字符，作为输入的停止标记。
+				char ch;
+				int count = 0;
+				cout << "Enter characters;enter # to quit:\n";
+				cin >> ch;
+				while (ch != '#') {
+					cout << ch;
+					++count;
+					cin >> ch;
+				}
+				cout << endl << count << " characters read\n";
+			目前该程序有个问题，不能识别空格。
+			这是因为cin在读取char值时，与读取其他基本类型一样，cin将忽略空格和换行符
+		5.5.2 使用cin.get(char)进行补救
+			cin.get(char)函数可以检查每个字符，包括空格，制表符和换行符。

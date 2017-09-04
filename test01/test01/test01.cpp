@@ -219,6 +219,27 @@ int main(void)
 		cout << x << endl;
 	}
 
+	char ch;
+	int count = 0;
+	cout << "Enter characters;enter # to quit:\n";
+	cin >> ch;
+	while (ch != '#') {
+		cout << ch;
+		++count;
+		cin >> ch;
+	}
+	cout << endl << count << " characters read\n";
+
+
+	cout << "cin.get():\nEnter characters;enter # to quit:\n";
+	cin >> ch;
+	while (ch != '#') {
+		cout << ch;
+		++count;
+		cin.get(ch);
+	}
+	cout << endl << count << " characters read\n";
+
 	//Push any kes to quit
 	cout << "Enter any keys to quit.\n";
 	cin.get();
