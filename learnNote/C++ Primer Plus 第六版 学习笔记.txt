@@ -555,3 +555,72 @@ C++预处理器和iostream文件
 			这是因为cin在读取char值时，与读取其他基本类型一样，cin将忽略空格和换行符
 		5.5.2 使用cin.get(char)进行补救
 			cin.get(char)函数可以检查每个字符，包括空格，制表符和换行符。
+		5.5.3 使用哪个cin.get()
+			函数重载
+		5.5.4 文件尾条件
+			如果输入来自文件，则可以使用一种功能更加强大的技术--检测文件尾（EOF）。
+		很多PC编程环境都将ctrl+Z视为模拟EOF。
+			1. EOF结束输入
+				当cin方法检测到EOF时，将设置cin对象中的一个指示EOF条件的标记，并不在
+			读取输入，再次调用也不管用。然而对于键盘模拟EOF来结束循环，但稍后要读取其
+			他输入。cin.clear()方法可以清楚EOF标记，使输入继续进行。
+			2. 常见的字符输入做法
+				每次读取一个字符，直到遇到EOF的输入循环的基本设计如下：
+					cin.get(ch);
+					while (cin.fail() == false) {
+						//....
+						cin.get(ch);
+					}
+					
+			cin.get(char)的返回值是一个cin对象。当cin出现在需要bool的地方时，该转换函
+		数江北调用。
+		5.5.5 另一个cin.get()版本
+			在C++工程中包含头文件stdio.h（或新的cstdio），就可以用getchar（）和
+			putchar().
+	5.6 嵌套循环和二维数组
+		二维数组：
+			int maxtemps[4][5];
+			这意味着maxtemps是一个包含4个元素的数组，其中每个元素都是一个由5个整数组
+		的数组。
+		5.6.1 初始化二维数组
+			。。。。。。
+		5.6.2 使用二维数组
+第6章 分支语句和逻辑运算符
+	if 语句
+	if else 语句
+	逻辑运算符：&&，||，！
+	cctype 字符函数库
+	条件运算符
+	switch 语句
+	continue 和 break语句
+	读取数字的循环
+	基本文件输入和输出
+	6.1 if 语句
+		if (test-condition) 
+			statement;
+		6.1.1 if else 语句
+			if (test-condition) 
+				statement1;
+			else 
+				statement2;
+	6.2 逻辑表达式
+		或运算符 ||
+		与运算符 &&
+		非运算符 ！
+	6.3 字符函数库cctype
+		头文件cctype中定义了一些与字符相关的，非常方便的函数。
+		isalpha(char) 判断是否为一个字母
+		ispunct(char) 判断是否为标点符号
+	6.4 条件运算符
+		expression1 ? expression2 : expression3
+	6.5 switch 语句
+		switch (integer-expression)
+		{
+			case label1: statement(s);
+				(break;)
+			case label2: statement(s);
+			...
+			default : statement(s);
+			
+			
+		}
