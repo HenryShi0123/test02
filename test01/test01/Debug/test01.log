@@ -1,5 +1,5 @@
 ﻿  test01.cpp
-e:\henrypersonal\languagelearn\gitlib\test02\test01\test01\test01.cpp(53): warning C4305: “初始化”: 从“double”到“float”截断
-e:\henrypersonal\languagelearn\gitlib\test02\test01\test01\test01.cpp(208): warning C4244: “初始化”: 从“float”转换到“clock_t”，可能丢失数据
+e:\henrypersonal\languagelearn\gitlib\test02\test01\test01\test01.cpp(58): warning C4305: “初始化”: 从“double”到“float”截断
+e:\henrypersonal\languagelearn\gitlib\test02\test01\test01\test01.cpp(219): warning C4244: “初始化”: 从“float”转换到“clock_t”，可能丢失数据
   test01.vcxproj -> E:\HenryPersonal\languageLearn\gitlib\test02\test01\Debug\test01.exe
   test01.vcxproj -> E:\HenryPersonal\languageLearn\gitlib\test02\test01\Debug\test01.pdb (Partial PDB)

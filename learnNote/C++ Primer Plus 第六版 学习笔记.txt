@@ -624,3 +624,124 @@ C++预处理器和iostream文件
 			
 			
 		}
+	6.6 break 和 continue 语句
+		break 可以用在switch语句或任何循环中，作用是跳出switch或循环语句，执行后面的
+	代码
+		continue 语句用在循环中，作用是跳出循环中的剩下的代码，重新开始新的循环。
+	
+	6.7 读取数字的循环
+		使用cin时，如果发生输入数据的类型和cin要指向的类型不匹配的时候会发生种情况：
+	例如：
+		int n；
+		cin >> n;
+		1. n的值保持不变
+		2. 不匹配的输入将留在输入队列中；
+		3. cin对象中的一个错误标记被设置；
+		4. 对cin方法的调用将返回false；
+	
+			double fish[MAX];
+
+			cout << "Please enter the weights of your fish.\n";
+			cout << "You may enter up to " << MAX << " fish <q to terminate>.\n";
+			cout << "Fish #1: ";
+			int im = 0;
+			while (im < MAX && cin >> fish[im]) {
+				if (++im < MAX)
+					cout << "fish #" << im + 1 << ":";
+			}
+			//calculate average
+			double total01 = 0.0;
+			int jm;
+			for (jm = 0; jm < im; jm++) {
+				total01 += fish[jm];
+			}
+			if (im == 0) {
+				cout << "No fish\n";
+			} else {
+				cout << total01 / im << " = average weight of " << im << " fish\n";
+			}
+			cout << "Done.\n";
+			
+		上面的程序出现什么情况呢，就是当用户非法输入的时候，程序将不再读取输入。我们
+	希望的时，在接收到非法输入的时候，继续读取。
+		当程序发现用户输入错误内容时，应采取三个步骤。
+		1. 重置cin以接收新的 输入
+		2. 删除错误输入
+		3. 提示用户再输入。
+		    while (!(cin >> golf[in])) {
+			cin.clear();//reset input 
+			while (cin.get() != '\n') {
+				//i--;
+				continue;// get rid of bad input
+			}
+			cout << "Please enter a number: ";
+		   }
+		   
+	6.8 简单文件输入、输出
+		简单的介绍文本文件I/O。
+		6.8.1 文本I/O和文本文件
+				。。。。。。
+		6.8.2 写入到文本文件中
+			有关将cout用于控制台输出的基本事实
+			1. 必须包含头文件iostream。
+			2. 头文件iostream定义了一个用处理输出的ostream类
+			3. 头文件iostream声明了一个名为cout的ostream变量
+			4. 必须指明使用名称空间：std；例如，为引用元素cout和endl，不许使用编译
+			   指令using或前缀std::
+			5. 可以结合使用cout和运算符<<来显示各种类型的数据
+			文件输出与此类似
+			1. 必须包含头文件fstream
+			2. 头文件fstream定义了一个用于处理输出的ofstream类
+			3. 需要声明一个或多个ofstream变量，并以自己喜欢的方式对其进行命名，条件是
+			   遵守常用的命名规则
+			4. 必须指明名称空间std；例如，为引用元素ofstream，必须使用编译指令using或
+			   前缀std::.
+			5. 需要将ofstream与文件关联起来。为此，方法之一就是使用open()方法。
+			6. 使用完文件后，应使用方法close()将其关闭。
+			7. 可以结合使用ofstream对象和运算符<<来输出各种类型的数据。
+			必须声明自己的ofstream对象，为其命名，并将其同文件关联起来。
+			ofstream outFile;
+			ofstream fout;
+			如何将这种对象与特定的文件关联起来。
+			outFile.open("fish.txt"); //outFile used to write to the fish.txt file
+			char filename[50];
+			cin >> filename; //user specifies a name
+			fout.open(filename);//fout used to read specified file
+			
+			方法open()接受一个C风格字符串作为参数，可以是一个字面字符串，也可以是一个
+		存储在数组中的字符串。
+			
+			double wt = 124.8;
+			outFile << wt; //write a number to fish.txt
+			char line[81] = "Objects are closer than they appear.";
+			fout << line << endl;
+			
+			方法close()不需要使用文件名作为参数。如果程序中忘记关闭文件，程序正常终止
+		时将自动关闭。
+			fstream 对象可以使用cout可使用的任何方法，包括<< 和各种格式化方法，如
+		setf() 和 precision().
+			
+			open()方法。
+			如果参数指定的文件不存在，则新建一个名为参数中指定的文件。如果指定的文件
+		存在，则将原文件中的内容删除，等待新的操作。
+		6.8.3 读取文本文件
+			1. 必须包含头文件fstream
+			2. 头文件fstream定义了一个用于处理输入的ifstream类
+			3. 需要声明一个或多个ifstream变量（对象），并命名
+			4. 必须指明名称空间std
+			5. 需要将ifstream对象与文件关联起来，为此，方法之一是使用open（）方法
+			6. 使用完文件后，应使用close（）方法将其关闭
+			7. 可以使用ifstream对象和get（）方法来读取一个字符，使用ifstream对象
+			   和getline（）方法来读取一行字符。
+			8. 可以结合使用ifstream和eof(), fail()等方法来判断输入是否成功。
+			9. ifstream对象本身被用作测试条件时，如果最后一个读取操作成功，它将被转换
+			   为布尔值true，否则为false。
+			   
+		    如何声明ifstream对象，为其命名及同文件关联起来。
+			ifstream inFile;//inFile an ifstream object 
+			ifstream fin; //fin an ifstream object
+			
+			inFile.open("bowling.txt");//inFile used to read bowling.txt file
+			char filename[50];
+			cin >> filename;
+			fin.open(filename);

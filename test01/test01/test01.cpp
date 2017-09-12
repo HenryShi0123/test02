@@ -4,8 +4,13 @@
 #include <string>
 
 #include <ctime>
+#include <fstream>
+
+#define MAX 5
 
 using namespace std;
+
+
 
 enum spectrum {
 	red,
@@ -169,7 +174,7 @@ int main(void)
 	cout << "Done!\n";
 
 	cout << "\nString class parts...\n";
-	
+
 	string str1;
 	string str2{ "henry" };
 	str1 = str2;
@@ -186,7 +191,7 @@ int main(void)
 	//band = red + green;
 	band = spectrum(4);
 	cout << band << endl;
-	
+
 	bits myflag;
 	myflag = bits(6);
 	cout << myflag << endl;
@@ -204,7 +209,13 @@ int main(void)
 
 	cout << "Enter the delay time, in seconds: ";
 	float secs;
-	cin >> secs;
+	while (!(cin >> secs)) {
+		cin.clear();
+		while (cin.get() != '\n') {
+			continue;
+		}
+		cout << "Please enter a number: \n";
+	}
 	clock_t delay = secs * CLOCKS_PER_SEC;
 	cout << "starting\a\n";
 	clock_t start = clock();
@@ -240,8 +251,113 @@ int main(void)
 	}
 	cout << endl << count << " characters read\n";
 
+	double fish[MAX];
+
+	cout << "Please enter the weights of your fish.\n";
+	cout << "You may enter up to " << MAX << " fish <q to terminate>.\n";
+	cout << "Fish #1: ";
+	int im = 0;
+	while (im < MAX && cin >> fish[im]) {
+		if (++im < MAX)
+			cout << "fish #" << im + 1 << ":";
+	}
+	//calculate average
+	double total01 = 0.0;
+	int jm;
+	for (jm = 0; jm < im; jm++) {
+		total01 += fish[jm];
+	}
+	if (im == 0) {
+		cout << "No fish\n";
+	} else {
+		cout << total01 / im << " = average weight of " << im << " fish\n";
+	}
+	cout << "Done.\n";
+
+
+	//get data 
+	cout << "File oprations......\n";
+	int golf[MAX];
+	cout << "Please enter your golf scores.\n";
+	cout << "You must enter " << MAX << " rounds.\n";
+	int in;
+	for (in = 0; in < MAX; in++) {
+		cout << "round #" << in + 1 << ": ";
+		while (!(cin >> golf[in])) {
+			cin.clear();//reset input 
+			while (cin.get() != '\n') {
+				//i--;
+				continue;// get rid of bad input
+			}
+			cout << "Please enter a number: ";
+		}
+	}
+
+	//calculate average
+	double total02 = 0.0;
+	for (in = 0; in < MAX; in++) {
+		total02 += golf[in];
+	}
+
+	//report results
+	cout << total02 / MAX << " = average score " << MAX << " rounds\n";
+
+	ofstream outFile;//outFile an ofstream object
+	ofstream fout;//fout an ofstream object
+
+	double wt = 123.53;
+	char line01[81] = "Objects are closer than they appear.";
+	char filename[50];
+
+	outFile.open("fish.txt");//outFile used to write to fish.txt file
+	outFile << wt;
+	outFile.close();
+
+	cout << "Please enter a file name: ";
+	cin >> filename;
+	fout.open(filename);
+
+	fout << line01 << endl;
+	fout.close();
+	while (cin.get() != '\n');
+	char automobile[50];
+	int year;
+	double a_price;
+	double d_price;
+
+	ofstream carFile;
+	carFile.open("carinfo.txt");
+
+	cout << "Enter the make and model of automobile: ";
+	cin.getline(automobile, 50);
+	cout << "Enter the model year: ";
+	cin >> year;
+	cout << "Enter the original asking price: ";
+	cin >> a_price;
+	d_price = a_price * 0.913;
+
+	//display infomation on screen with cout
+	cout << fixed;
+	cout.precision(2);
+	cout.setf(ios_base::showpoint);
+	cout << "Make and model: " << automobile << endl;
+	cout << "Year: " << year << endl;
+	cout << "Was asking $" << a_price << endl;
+	cout << "Now asking $" << d_price << endl;
+
+	//now do exact same things using outFile instead of cout 
+	carFile << fixed;
+	carFile.precision(2);
+	carFile.setf(ios_base::showpoint);
+	carFile << "Make and model: " << automobile << endl;
+	carFile << "Year: " << year << endl;
+	carFile << "Was asking $" << a_price << endl;
+	carFile << "Now asking $" << d_price << endl;
+	
+	carFile.close();
 	//Push any kes to quit
 	cout << "Enter any keys to quit.\n";
+	while (cin.get() != '\n');
 	cin.get();
 	cout << "Ready to quit!" << endl;
 	while (i--);
