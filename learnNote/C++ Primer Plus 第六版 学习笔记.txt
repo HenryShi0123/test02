@@ -745,3 +745,28 @@ C++预处理器和iostream文件
 			char filename[50];
 			cin >> filename;
 			fin.open(filename);
+			
+			double wt;
+			inFile >> wt;         //read a number from bowling.txt
+			char line[81];
+			fin.getline(line, 81);//read a line of text
+			如果试图打开一个不存在的文件用于输入，将导致后面使用ifstream对象进行输入
+		时失败。所以需要检查文件是否被成功打开，使用方法 is_open(),或good()方法。
+			if (!inFile.is_open()) {
+				exit(EXIT_FAILURE);
+				
+			}
+
+第七章 函数——C++的编程模块
+	函数的基本知识
+	函数原型
+	按值传递函数参数
+	设计处理数组的函数
+	使用const指针参数
+	设计处理文本字符串的函数
+	设计处理结构的函数
+	设计处理string对象的函数
+	设计调用自身的函数（递归）
+	指向函数的指针
+	
+			

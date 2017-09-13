@@ -5,12 +5,13 @@
 
 #include <ctime>
 #include <fstream>
+#include <cstdlib>
 
 #define MAX 5
 
 using namespace std;
 
-
+const int SIZE = 60;
 
 enum spectrum {
 	red,
@@ -32,7 +33,7 @@ enum bits {
 
 
 char * getname(void);
-
+void delayS(int secs);
 int main(void)
 {
 	int i = INT_MAX;
@@ -216,11 +217,7 @@ int main(void)
 		}
 		cout << "Please enter a number: \n";
 	}
-	clock_t delay = secs * CLOCKS_PER_SEC;
-	cout << "starting\a\n";
-	clock_t start = clock();
-	cout << "start..." << endl;
-	while (clock() - start < delay);
+	delayS(secs);
 
 	cout << "Done\a\n";
 
@@ -276,7 +273,7 @@ int main(void)
 
 
 	//get data 
-	cout << "File oprations......\n";
+
 	int golf[MAX];
 	cout << "Please enter your golf scores.\n";
 	cout << "You must enter " << MAX << " rounds.\n";
@@ -302,6 +299,8 @@ int main(void)
 	//report results
 	cout << total02 / MAX << " = average score " << MAX << " rounds\n";
 
+    //file option
+	cout << "File oprations......\n";
 	ofstream outFile;//outFile an ofstream object
 	ofstream fout;//fout an ofstream object
 
@@ -355,13 +354,93 @@ int main(void)
 	carFile << "Now asking $" << d_price << endl;
 	
 	carFile.close();
+
+	//read from file
+	cout << "Read from file" << endl;
+
+	ifstream inFile;
+	cout << "Open fish.txt..." << endl;
+	inFile.open("fish.txt");
+	if (!inFile.is_open()) {
+		exit(EXIT_FAILURE);
+	}
+	cout << "open fish.txt sucess" << endl;
+	double wtf = 0.0;
+	cout << "wt is " << wtf << " before read from fish.txt\n";
+	inFile >> wtf;
+	cout << "wt is " << wtf << " after read from fish.txt\n";
+	inFile.close();
+
+	cout << "Please enter a file name(like fish01.txt): ";
+	while (cin.get() != '\n');
+
+    ifstream fin;
+	char filename1[SIZE];
+	cin >> filename1;
+	fin.open(filename1);
+	if (!fin.is_open()) {
+		cout << "open fail" << endl;
+		delayS(3);
+		exit(EXIT_FAILURE);
+	}
+	char lineInFile[81];
+	fin.getline(lineInFile, 81);
+	cout << "lineInFile is :\"" << lineInFile << ".\"\n";
+	fin.close();
+	while (cin.get() != '\n');
+
+	char filename2[SIZE];
+	ifstream dataFileRead;
+	cout << "Enter name of data file: ";
+	cin.getline(filename2, SIZE);
+	dataFileRead.open(filename2);
+	if (!dataFileRead.is_open()) {
+		cout << "Could not open the file " << filename2 << endl;
+		cout << "Program terminating.\n";
+		delayS(3);
+		exit(EXIT_FAILURE);
+	}
+
+	double value;
+	double sum = 0.0;
+	int count02 = 0;
+
+	dataFileRead >> value;
+	while (dataFileRead.good()) {
+		++count02;
+		sum += value;
+		dataFileRead >> value;
+	}
+	if (dataFileRead.eof()) {
+		cout << "End of file reached.\n";
+	}
+	else if (dataFileRead.fail()) {
+		cout << "Input terminated by data mismatch.\n";
+	}
+	else {
+		cout << "Input terminated for unknow reason.\n";
+	}
+
+	if (count02 == 0) {
+		cout << "No data processed.\n";
+	}
+	else {
+		cout << "Items read: " << count02 << endl;
+		cout << "Sum: " << sum << endl;
+		cout << "Average: " << sum / count02 << endl;
+	}
+	dataFileRead.close();
+
+
 	//Push any kes to quit
 	cout << "Enter any keys to quit.\n";
 	while (cin.get() != '\n');
 	cin.get();
 	cout << "Ready to quit!" << endl;
-	while (i--);
-	return i;
+
+	delayS(3);
+
+	return i = 0;
 }
 
 char *getname()
@@ -374,4 +453,11 @@ char *getname()
 	//strcpy(pn, temp);
 	strcpy_s(pn, strlen(temp) + 1, temp);
 	return pn;
+}
+
+void delayS(int secs)
+{
+	clock_t delay1 = secs * CLOCKS_PER_SEC;
+	clock_t start1 = clock();
+	while (clock() - start1 < delay1);
 }
