@@ -112,7 +112,7 @@ C++预处理器和iostream文件
 			    bool类型只有两个值：true 和 false
 			
 		3.2 const 限定符
-		    使用const关键字来修改声明和初始化，可以使一个变量不变成常量。
+		    使用const关键字来修改声明和初始化，可以使一个变量变成常量。
 		    const int i = 12；//定义了一个常量，值是12
 		3.3 浮点数
 		    double 
@@ -805,3 +805,50 @@ C++预处理器和iostream文件
         7.3.2 将数组作为参数意味着什么
             意味着将数组的位置（地址），包含的元素的种类（类型）以及元素数目提交给了函数。因此
         函数在处理参数传来的数组的时候，实际上就是在操作原来的数组。
+		7.3.3 更多数组函数示例
+			1. 填充数组
+				int fill_array(double ar[], int limit);
+				int fill_array(double ar[], int limit)
+				{
+					double temp;
+					int i;
+					for (i = 0; i < limit; i++) {
+						cout << "Enter value #" << (i+1) << ": ";
+						cin >> temp;
+						if (!cin) {
+							cin.clear();
+							while(cin.get() != '\n') {
+								continue;
+							}
+							cout << "Bad input; Input process terminated.\n";
+							break;
+						} else if (temp < 0) {
+							break;
+						}
+						ar[i] = temp;
+						
+					}
+					
+					return i;
+				}
+			2. 显示数组及用const保护数组
+				显示数组时，应保证函数不修改原始数组，此时可在声明形参时使用关键字
+			const:
+			void show_array(const double ar[], int n);
+			3. 修改数组
+				void revalue(double r, double ar[], int n)
+				{
+					for (int i = 0; i < n; i++) {
+						ar[i] *= r;
+						
+					}
+				}
+			4. 将上述代码组合起来。
+			
+		7.3.4 使用数组区间的函数
+		。。。。。。
+		7.3.5 指针和const
+			让指针直线给一个常量对象
+			将指针本省声明为常量
+			int age = 39;
+			const int *pt = &age;
