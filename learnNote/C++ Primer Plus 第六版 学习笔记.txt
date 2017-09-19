@@ -880,4 +880,35 @@ C++预处理器和iostream文件
 				return pstr;
 			}
 	7.6 函数和结构
+		......
+		
+	7.9 包含多个递归调用的递归
+		void subdivide(char ar[], int low, int high, int level)
+		{
+		    if (level = 0) {
+				return;
+			}
 			
+			int mid = (high + low) / 2;
+			ar[mid] = '|';
+			subdivide(ar, low, mid, level - 1);
+			subdivide(ar, mid, high, level - 1);
+		}
+	7.10 函数指针
+		函数也有地址，函数的地址就是存储其机器语言代码的内存的开始地址。
+		7.10.1 函数指针的基础知识
+			1. 获取函数的地址
+				只要使用函数名（后面不跟参数）即可。
+			2. 声明函数指针
+				类型 (*func)(参数列表);
+			3. 使用指针来调用函数
+				使用(*func)时，只需将它看成函数名就行了。
+第8章 函数探幽
+	内联函数
+	引用变量
+	如何按引用传递函数参数
+	默认参数
+	函数重载 
+	函数模板
+	函数模板具体化
+	
