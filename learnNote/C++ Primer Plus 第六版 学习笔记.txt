@@ -880,20 +880,72 @@ C++预处理器和iostream文件
 				return pstr;
 			}
 	7.6 函数和结构
-		......
-		
-	7.9 包含多个递归调用的递归
-		void subdivide(char ar[], int low, int high, int level)
-		{
-		    if (level = 0) {
-				return;
+	7.6 函数和结构
+		使用结构编程时，最直接的方法就是像处理基本类型那样来处理结构。
+		7.6.1 传递和返回结构
+			当结构比较小时，按值传递结构最合理。
+			struct travel_time {
+				int hours;
+				int mins;
+			};
+			travel_time sum(travel_time t1, travel_time t2)
+			{
+				travel_time total;
+				total.mins = (t1.mins + t2.mins) % Mins_per_hr;
+				total.hour = (t1.hours + t2.hours) + (t1.mins + t2.mins) / Mins_per_hr;
+				return total;
 			}
-			
-			int mid = (high + low) / 2;
-			ar[mid] = '|';
-			subdivide(ar, low, mid, level - 1);
-			subdivide(ar, mid, high, level - 1);
+			void show_time(travel_time t)
+			{
+				cout << t.hours << " hours, " << t.mins << " mins." << endl;
+			}
+		7.6.3 传递结构的地址
+	7.7 函数和string对象
+		可以将结构作为完整的实体传递给函数，也可以将对象作为完整的实体进行传递。
+		void display(const string sa[], int n)
+		{
+			for (int i = 0; i < n; i++) {
+				cout << i + 1 << ": " << sa[i] << endl;				
+			}
 		}
+	7.8 函数与array对象
+		C++中，类对象是基于结构的，因此结构编程方面的有些因素也适用于类。
+	7.9 递归
+		自己调用自己的函数就是递归。C++中不允许main（）调用自己。
+		7.9.1 包含一个递归调用的递归
+			如果递归函数中没有停止条件，则将无限循环下去。通常的做法是将递归调用，放在if语句中。
+			void recurs(agumentlist)
+			{
+				statementsl
+				if(test)
+					recurs(arguments)
+				statements2
+			}
+			只要if语句为true，每个recurs（）调用都将执行statements1，然后再调用recurs，而不会执行
+		statement2.当if语句为false时，当前调用将执行statements2.当前调用结束后，程序控制权将返回给调用它的recurs（），
+		而该recurs（）将执行是他tements2，然后结束，并将控制权返回前一个调用，以此类推。因此如果recurs进行了5次调用，
+		则statement1部分将按函数的调用顺序调用5次，而statements将按相反的顺序调用5次。
+		void countdown(int n)
+		{
+			cout << "Counting down ..." << n << endl;
+			if (n > 0) {
+				countdouwn(n - 1);
+			}
+			cout << n << ": Kaboom!\n";
+		}
+		
+		7.9.2 包含多个递归调用的递归
+			void subdivide(char ar[], int low, int high, int level)
+			{
+				if (level = 0) {
+					return;
+				}
+			
+				int mid = (high + low) / 2;
+				ar[mid] = '|';
+				subdivide(ar, low, mid, level - 1);
+				subdivide(ar, mid, high, level - 1);
+			}
 	7.10 函数指针
 		函数也有地址，函数的地址就是存储其机器语言代码的内存的开始地址。
 		7.10.1 函数指针的基础知识

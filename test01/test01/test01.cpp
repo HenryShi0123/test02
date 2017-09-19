@@ -35,6 +35,7 @@ enum bits {
 char * getname(void);
 void delayS(int secs);
 int fill_array(double ar[], int limit);
+void countdown(int n);
 int main(void)
 {
 	int i = INT_MAX;
@@ -267,7 +268,8 @@ int main(void)
 	}
 	if (im == 0) {
 		cout << "No fish\n";
-	} else {
+	}
+	else {
 		cout << total01 / im << " = average weight of " << im << " fish\n";
 	}
 	cout << "Done.\n";
@@ -300,7 +302,7 @@ int main(void)
 	//report results
 	cout << total02 / MAX << " = average score " << MAX << " rounds\n";
 
-    //file option
+	//file option
 	cout << "File oprations......\n";
 	ofstream outFile;//outFile an ofstream object
 	ofstream fout;//fout an ofstream object
@@ -353,7 +355,7 @@ int main(void)
 	carFile << "Year: " << year << endl;
 	carFile << "Was asking $" << a_price << endl;
 	carFile << "Now asking $" << d_price << endl;
-	
+
 	carFile.close();
 
 	//read from file
@@ -375,7 +377,7 @@ int main(void)
 	cout << "Please enter a file name(like fish01.txt): ";
 	while (cin.get() != '\n');
 
-    ifstream fin;
+	ifstream fin;
 	char filename1[SIZE];
 	cin >> filename1;
 	fin.open(filename1);
@@ -432,7 +434,7 @@ int main(void)
 	}
 	dataFileRead.close();
 
-
+	countdown(5);
 	//Push any kes to quit
 	cout << "Enter any keys to quit.\n";
 	while (cin.get() != '\n');
@@ -486,4 +488,13 @@ int fill_array(double ar[], int limit)
 	}
 
 	return i;
+}
+
+void countdown(int n)
+{
+	cout << "Counting down ..." << n << endl;
+	if (n > 0) {
+		countdown(n - 1);
+	}
+	cout << n << ": Kaboom!\n";
 }
