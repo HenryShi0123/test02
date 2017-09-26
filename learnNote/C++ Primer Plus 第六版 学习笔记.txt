@@ -983,4 +983,56 @@ C++预处理器和iostream文件
 			double refcube(const double &ar);
 			如果这样做，当编译器发现代码修改了ra的值时，将发生错误消息。
 			
-	
+		8.2.4 将引用用于结构
+			引用非常适合于结构和类。使用结构引用参宿的方式与使用基本变量引用相同，
+		只需在声明结构参数时使用引用运算符&。
+			struct free_throws {
+			    std:: string name;
+				int made;
+				int attempts;
+				float percent;
+			};
+			void set_pc(free_throws & ft);
+			
+			free_throws & accumulate(free_throws & target, const free_throws & source)
+			{
+				......
+				return target;
+			};
+			使用返回引用时，应避免返回函数终止时不再存在的内存单元引用
+			
+		8.2.5 将引用用于类对象
+			将类对象传递给函数时，C++通常的做法是使用引用。
+			string version1(const string & s1, const string & s2)
+			{ 
+				string temp;
+				temp = s2 + s1 + s2;
+				return temp;
+			}
+			const string & version2(string & s1, const string & s2)
+			{
+				s1 = s2 + s1 + s2;
+				return s1;
+			}
+		8.2.6 对象，继承和引用
+			派生类继承了基类的方法，基类引用可以指向派生类对象，而无需进行强制类型
+		转换。
+		8.2.7 何时使用引用参数
+			使用引用参数的主要原因有两个：
+				1. 程序员能够修改调用函数中的数据对象
+				2. 通过传递引用而不是整个数据对象，可以提高程序的运行速度
+			指导原则
+				对于使用传递的值而不作修改的函数。
+				1. 如果数据对象很小，如内置数据类型或小型结构，则按值传递
+				2. 如果数据对象是数组，则使用指针，因为这是唯一的选择，并将指针声明为
+				   指向const的指针
+				3. 如果数据对象是较大的结构，则使用const指针或const引用，以提高程序的
+				   效率。这样可以节省复制结构所需的时间和空间。
+				对于修改调用函数中数据的函数
+				4. 如果数据对象是类对象，则使用const引用。类设计的语句常常妖气使用引
+				   用。传递类对象参数的标准方式是按引用传递。
+				5. 如果数据对象是内置数据类型，则使用指针。
+				6. 如果数据对象是数组，则只能使用指针
+				7. 如果数据对象是结构，则使用引用或指针。
+				8. 如果数据是类对象，则使用引用
+	8.3 默认参数
