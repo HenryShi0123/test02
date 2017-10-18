@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classesPractice\stockszc.cpp" />
     <ClCompile Include="test01.cpp" />
   </ItemGroup>
   <ItemGroup>

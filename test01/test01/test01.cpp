@@ -7,6 +7,9 @@
 #include <fstream>
 #include <cstdlib>
 
+#include <Windows.h>
+
+
 #define MAX 5
 
 using namespace std;

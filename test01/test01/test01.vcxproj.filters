@@ -18,6 +18,9 @@
     <ClCompile Include="test01.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="classesPractice\stockszc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classesPractice\stockszc.h">

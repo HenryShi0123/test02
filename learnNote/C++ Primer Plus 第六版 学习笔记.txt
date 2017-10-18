@@ -1300,7 +1300,7 @@ C++预处理器和iostream文件
 	过程性编程和面向对象编程
 	类概念
 	如何定义和实现类
-	共有类访问和私有类访问
+	公有类访问和私有类访问
 	类的数据成员
 	类方法（类函数成员）
 	创建和使用类对象
@@ -1331,7 +1331,7 @@ C++预处理器和iostream文件
 		10.2.2 C++中的类
 			类是一种将抽象转换为用户定义类型的C++工具，它将数据表示和操纵数据的方法组合成一个整洁的包。
 			一般来说，类规范由两个部分组成
-				1. 类声明：以数据成员的方法秒数数据部分，以成员函数（被称为方法）的方式描述共有接口。
+				1. 类声明：以数据成员的方法秒数数据部分，以成员函数（被称为方法）的方式描述公有接口。
 				2. 类方法定义：秒数如何实现类成员函数。
 			通常C++程序员将接口（类定义）放在头文件中，并将实现（类方法的代码）放在源代码问价那种。
 			常见但不通用的约定————将类名首字母大写。
@@ -1360,8 +1360,172 @@ C++预处理器和iostream文件
 			#endif
 			上面的代码是在stockszc.h文件中定义了Stock类的声明和接口
 			1. 访问控制
-				private 和 public ，这两个关键字描述了对类成员的访问控制。使用类对象的程序都可以直接访问共有
-			部分，但只能通过共有成员函数（或友元函数）来访问对象的私有成员。
-				共有成员函数是程序和对象的私有成员之间的桥梁，提供了对象和程序之间的接口。
+				private 和 public ，这两个关键字描述了对类成员的访问控制。使用类对象的程序都可以直接访问公有
+			部分，但只能通过公有成员函数（或友元函数）来访问对象的私有成员。
+				公有成员函数是程序和对象的私有成员之间的桥梁，提供了对象和程序之间的接口。
 				防止程序直接访问数据就是数据隐藏。
+			2. 控制对成员的访问：公有还是私有
+				由于隐藏数据是OOP的主要目标之一，因此数据项通常放在私有部分，组成类接口的成员函数放在公有部分。
+				private关键字是默认的，因此在类声明中可以不用private关键字：
+				class World {
+					float mass; // private by default
+					char  name; // private by default
+				public:
+					void tellall(void);
+				};
+				C++对结构进行了拓展，使之具有相同的的特性，可以使用public和private关键字来控制成员的访问。区
+			别在于，结构的默认访问类型是public，而类的是private。
+		10.2.3 实现类成员函数
+			为类声明中的原型表示的成员函数提供代码。
+			成员函数与常规函数定义非常类似，它们有函数头和函数体，也可以返回类型和参数。但还有两个特殊特性：
+				1. 定义成员函数，使用作用域解析运算符(::)来表示函数所属的类；
+				2. 类方法可以访问类的private组件
+				//stockszc.cpp -- implementing th stock class
+				//version 00
+				#include <iostream>
+				#include "stockszc.h"
+
+				void Stock::acquire(const std::string & co, long n, double pr)
+				{
+					company = co;
+					if (n < 0) {
+						std::cout << "Number of shares can`t be negative; "
+								  << company 
+								  << " shares set to 0. \n";
+					} else {
+						shares = n;
+					}
+					share_val = pr;
+					set_tot();
+				}
+
+				void Stock::buy(long num, double price)
+				{
+					if (num < 0) {
+						std::cout << "Number of shares purchased can`t be negative. "
+								  << "Thransaction is aborted\n";
+					} else {
+						shares += num;
+						share_val = price;
+						set_tot();
+					}
+				}
+
+				void Stock::sell(long num, double price) 
+				{
+					using std::cout;
+					if (num < 0) {
+						cout << "Number of shares sold can`t be negative. "
+							 << "Transaction is aborted.\n";
+					} else if (num > shares) {
+						cout << "You can`t sell more than you have!"
+							 << "Transcation is aborted.\n";
+					} else {
+						shares -= num;
+						share_val = price;
+						set_tot();
+					}
+				}
+
+				void Stock::update(double price)
+				{
+					share_val = price;
+					set_tot();
+				}
+
+				void Stock::show()
+				{
+					std::cout << " Comany: " << company 
+							  << " Shares: " << shares << '\n'
+							  << " Share Price: $" << share_val
+							  << " Total Worth: $" << total_val << '\n'; 
+				}
 			
+			1. 内联函数
+				定义位于类声明中的函数都将自动成为内联函数。也可以在类声明之外定义成员函数，并使其成为内联
+			函数。如
+				class Stock {
+				private:
+				    ......
+				    void set_tot(); // definition kept separate
+				public:
+					.....
+				};
+				inline void Stock::set_tot() 
+				{
+					tot_val = shares * share_val;
+				}
+			2. 方法使用那个对象
+				如何将类方法应用于对象。如何创建对象。
+				1 声明类变量
+					Stock kate, joe;
+					这样就创建了两个Stock类对象，一个为kate，另一个位Joe
+				如何使用对象的成员函数，通过成员运算符
+					kate.show();
+					joe.show();
+					每个新对象都有自己的存储空间，用于存储其内部变量和类成员。同一个类的所有对象共享一组类方
+				法。
+		10.2.4 使用类
+			通过程序来练习使用类对象。
+			#include <iostream>
+			#include "stockszc.h"
+			
+			int main()
+			{
+			    Stock fluffy_the_cat;
+				fluffy_the_cat.acquire("NanoSmart", 20, 12.50);
+				fluffy_the_cat.show();
+				fluffy_the_cat.buy(15, 18.125);
+				fluffy_the_cat.show();
+				fluffy_the_cat.sell(400, 20.00);
+				fluffy_the_cat.show();
+				fluffy_the_cat.buy(200000, 40.125);
+				fluffy_the_cat.show();
+				return 0;
+			}
+			
+			客户/服务器模型
+			客户只能通过以共有方式定义的接口使用服务器，客户唯一的责任是了解该接口。
+			服务器的责任是确保服务根据该接口可靠并准确的执行。服务器设计人员只能修改类设计的实现细节，不能修
+		改接口。
+		10.2.5 修改实现
+			std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+			这样的操作，将使得cout输出避免科学计数法，输出小数形式。
+			下面的语句导致cout在使用定点表示法时，显示三位小数：
+			std::cout.precision(3);
+			下面将stock的成员函数做出修改
+			void Stock::show()
+			{
+			    using std::cout;
+				using std::ios_base;
+				
+				//set format to *.***
+				ios_base::fmtflags orig = cout.setf(ios_base::fixed, ios_base::floatfiled);
+				std::streamsize prec = cout.precision(3);
+				
+				cout << "Company: " << company << " Shares: " << shares << '\n';
+				cout << "Share Price: $" << share_val;
+				
+				//set format to *.**
+				cout.precision(2);
+				cout << " Total Worth: $" << total_val << '\n';
+				
+				//restore original format
+				cout.setf(orig, ios_base::floatfield);
+				cout.pricision(prec);
+			}
+			
+		10.2.6 小结
+		设计类的步骤
+		1. 提供类声明，类声明类似结构声明，可以包含数据成员和函数成员。声明私有部分，在其中声明的成员只能通过
+		   成员函数进行访问；声明还具有公有部分。在其中声明的成员可被使用类对象的程序直接访问。通常数据成员
+		   被放在私有部分中，成员函数被放在公有部分中。典型的类声明格式如下：
+				class className {
+				
+				private：
+					data member declarations
+				public:
+					member funcion prototypes
+				};
+	10.3 类的构造函数和析构函数
+	
