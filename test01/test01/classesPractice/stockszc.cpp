@@ -3,6 +3,31 @@
 #include <iostream>
 #include "stockszc.h"
 
+Stock::Stock()
+{
+    company   = "no name";
+    shares    = 0;
+    share_val = 0.0;
+    total_val = 0.0;
+}
+
+Stock::Stock(const std::string &co, long n, double pr)
+{
+	company = co;
+	if (n < 0) {
+		std::cerr << "Number of shares can`t be negative; " << company << " shares set to 0.\n";
+		shares = 0;
+	} else {
+		shares = n;
+	}
+	share_val = pr;
+	set_tot();
+}
+
+Stock::~Stock()
+{
+
+}
 void Stock::acquire(const std::string & co, long n, double pr)
 {
 	company = co;

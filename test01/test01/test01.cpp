@@ -14,7 +14,7 @@
 
 using namespace std;
 
-const int SIZE = 60;
+const int SZC_SIZE = 60;
 
 enum spectrum {
 	red,
@@ -381,7 +381,7 @@ int main(void)
 	while (cin.get() != '\n');
 
 	ifstream fin;
-	char filename1[SIZE];
+	char filename1[SZC_SIZE];
 	cin >> filename1;
 	fin.open(filename1);
 	if (!fin.is_open()) {
@@ -395,10 +395,10 @@ int main(void)
 	fin.close();
 	while (cin.get() != '\n');
 
-	char filename2[SIZE];
+	char filename2[SZC_SIZE];
 	ifstream dataFileRead;
 	cout << "Enter name of data file: ";
-	cin.getline(filename2, SIZE);
+	cin.getline(filename2, SZC_SIZE);
 	dataFileRead.open(filename2);
 	if (!dataFileRead.is_open()) {
 		cout << "Could not open the file " << filename2 << endl;
