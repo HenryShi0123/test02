@@ -1593,3 +1593,380 @@ C++预处理器和iostream文件
 			通常不应在代码中显示地调用析构函数。什么时候调用析构函数由编译器决定。如果程序员没有提供析构函数，
 		编译器将隐式地声明一个默认析构函数，并在发现导致对象被删除的代码后，提供默认析构函数的定义。
 	10.4 this 指针
+		this 是个特殊的指针，指向用来调用成员函数的对象。所有的类方法都将this指针设置为调用她的对象的地址。
+	
+	10.5 对象数组
+		声明对象数组的方法与声明标准类型数组相同：
+			Stock mystuff[4];
+		可以用构造函数来初始化数组元素，这种情况下必须位每个元素调用构造函数：
+			 const int STKs = 4;
+			 Stock stocks[STKS] = {
+				 Stock("NanoSmart", 12.5, 20),
+				 Stock("Boffo Objects", 200, 2.0);
+				 Stock("Monolithic Oblisks", 130, 3.25),
+				 Stock("FleepEnterprises", 60, 6.5)
+			 };
+		可以对不同的元素使用不同的构造函数
+	10.6 类作用域
+		在类中定义的名称的作用域都为整个类，作用域位整个类的名称只在该该类中是已知的，在类外是不可知的。
+		类作用域意味着不能从外部直接访问类的成员，公有成员函数也是如此。
+		10.6.1 作用域为类的常量
+			有时，使用符号常量的作用域位类很有用。例如，类声明可能使用字面值30来指定数组的长度。这时有两种方
+		法。
+			一种在类中声明一个枚举。在类中声明的枚举的作用域为整个类，因此可以用枚举位整形常量提供作用域位整
+		个类的符号名称
+			class Bakery {
+				private:
+				enum {Months = 12};
+				double cost[Months];
+			};
+			另一种方法使用关键字static
+			class Bakery {
+				private：
+				static const int Months = 12;
+				double costs[Months];
+			}；
+			这样的Months被所有的对象共享。
+		10.6.2 作用域内枚举
+			C++11 提供了一种新的枚举类，其枚举量的作用域位类。声明类似下面：
+				enum class egg {Small, Medium, Large, Jumbo};
+				enum class t_shirt {Small, Medium, Large, Jumbo};
+			可以使用struct代替class，需要使用枚举名来限定枚举量
+	10.7 抽象数据类型
+		抽象数据类型以通用的方式描述数据类型，而没有引入语言或实现细节。使用类是一种非常好的方式。
+		这里使用了栈这个例子来说明这种关系。栈的特性：
+			1. 栈存储了多个数据项
+			2. 可以创建空栈；
+			3. 可将数据想添加到栈顶；
+			4. 可从栈顶删除数据项；
+			5. 可查看栈是否填满
+			6. 可查看栈是否为空；
+		用类来表示的话，其中公有成员提供了表示栈操作的接口，而私有数据成员负责存储栈数据。
+		//stack.h --class definition for the stack ADT
+		#ifndef STACK_H_
+		#define STACK_H_
+		
+		typedef unsigned long Item;
+		
+		class Stack {
+		private:
+			enum {MAX = 10};  //constant specific to class
+			Item items[MAX];   //holds stack items
+			int  top;		  // index for top stack item
+		public:
+			Stack() const;
+			bool isempty() const;
+			bool isfull() const;
+			
+			// push() returns false if stack already is full, true otherwise
+			bool push(const Item &item); // add item to stack
+			// pop() returns false if stack already is empty, true otherwise
+			bool pop(Item &item); //pop top into item
+		};
+		
+		
+		//stack.cpp stack member function
+		#include "stack.h"
+		Stack::Stack() 
+		{
+			top = 0;
+		}
+		
+		bool Stack::isempty() const
+		{
+			return top == 0;
+		}
+		
+		bool Stack::isfull() const 
+		{
+				return top == MAX;
+		}
+		
+		bool Stack::push(const Item & item)
+		{
+			if (top < MAX) {
+				items[top++] = item;
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		bool Stack::pop(Item &item)
+		{
+			if (top > 0) {
+				item = items[--top];
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		//stacker.cpp --testing the Stack class
+		#include <iostream>
+		#include <cctype> //or ctype.h
+		#include "stack.h"
+		
+		int main()
+		{
+			using namespace std;
+			Stack st; // create an empty stack;
+			char ch;
+			unsigned long po;
+			
+			cout << "Please enter A to add a puuchase order,\n"
+				 << "P to process a PO, or Q to quit.\n"
+				 
+			while (cin >> ch && toipper(ch) != 'Q') {
+				while (cin.get()!= "\n") {
+					continue;
+				}
+				if (!isalpha(ch) {
+					cout << '\a';
+					continue;
+				}
+				switch(ch) {
+				case 'A':
+				case 'a':
+					cout << "Enter a po number to add: ";
+					cin >> po;
+					if (st.isfull()) {
+						cout << "stack already full\n";
+					} else {
+						st.push(po);
+					}
+					break;
+				case 'p':
+				case 'P':
+					if (st.isempty()) {
+						cout << "stack already empty\n";
+					} else {
+						st.pop(po);
+						cout << "PO #" << po << " popped\n";
+					}
+					break;
+				}
+				cout << "Please enter A to add a puchase order,\n"
+					 << "P to process a PO, or Q to quit.\n"
+			}
+			cout << "Bye\n";
+			return 0;
+		}
+		
+	10.8 总结
+		面向对象编程强调程序如何表示数据。使用opp方法解决编程问题的第一步是根据它与程序之间的接口来描述数据
+	从而指定如何使用数据。然后设计一个类来实现该接口。一般来说，私有数据成员存储信息，公有成员函数提供访问数
+	数据的唯一途径。
+		通常，将类的声明分成两个部分，类声明（包含有函数原型表示的方法）应放在头文件中。定义成员函数的源代码
+	放在方法文件中。
+		类是用户定义的类型，对象是类的实例。
+第11章 使用类
+	运算符重载
+	友元函数
+	重载<< 运算符 ，以便用于输出
+	状态成员
+	使用rand()生成随机值
+	类的自动转换和强制类型转换
+	类转换函数
+	
+	11.1 运算符重载
+		运算符函数的格式如下：
+			operatorop(argument-list)
+		例如operator+()重载+运算符，operator*()重载*运算符。op必须是有效的C++运算符。
+	11.2 计算时间：一个运算符重载示例
+		// mytime0.h --Time class before operator overloading
+		#ifndef MYTIME0_H_
+		#define MYTIME0_H_
+		
+		class Time  {
+		private:
+			int hours;
+			int minutes;
+		public:
+			Time();
+			Time(int h, int m = 0);
+			void AddMin(int m);
+			void AddHr(int h);
+			void Reset(int h = 0, int m = 0);
+			Time Sum(const Time & t) const;
+			void Show() const;
+		};
+		#endif
+		
+		
+		//mytime0.cpp --implementing Time methods
+		
+		#include <iostream>
+		#include "mytime0.h"
+		
+		Time::Time()
+		{
+			hour = minutes = 0;
+		}
+		
+		Time::Time(int h, int m)
+		{
+			hours   = h;
+			minutes = m;
+		}
+		
+		void TIme::AddMin(int m)
+		{
+			minute += m;
+			hours + minutes / 60;
+			minutes %= 60;
+		}
+		
+		void Time::AddHr(int h)
+		{
+			hour += h;
+		}
+		
+		void Time::Reset(int h, int m)
+		{
+			hours = h;
+			minutes = m;
+		}
+		
+		Time Time::Sum(const Time & t) const 
+		{
+			Time sum;
+			sum.minutes = minutes + t.minutes;
+			sum.hours = hours + t.hours + sum.minutes / 60;
+			sum.minutes %= 60;
+			return sum;
+		}
+		
+		void Time::Show() const 
+		{
+			std::cout << hours << "hours, " << minutes << " minutes." << endl;
+		}
+		
+		以上代码是没有运算符重载的写法，下面是有运算符重载的写法
+		
+		// mytime1.h --Time class before operator overloading
+		#ifndef MYTIME1_H_
+		#define MYTIME1_H_
+		
+		class Time  {
+		private:
+			int hours;
+			int minutes;
+		public:
+			Time();
+			Time(int h, int m = 0);
+			void AddMin(int m);
+			void AddHr(int h);
+			void Reset(int h = 0, int m = 0);
+			Time operator+(const Time & t) const;
+			void Show() const;
+		};
+		
+		//mytime1.cpp --implementing Time methods
+		
+		#include <iostream>
+		#include "mytime1.h"
+		
+		Time::Time()
+		{
+			hour = minutes = 0;
+		}
+		
+		Time::Time(int h, int m)
+		{
+			hours   = h;
+			minutes = m;
+		}
+		
+		void TIme::AddMin(int m)
+		{
+			minute += m;
+			hours + minutes / 60;
+			minutes %= 60;
+		}
+		
+		void Time::AddHr(int h)
+		{
+			hour += h;
+		}
+		
+		void Time::Reset(int h, int m)
+		{
+			hours = h;
+			minutes = m;
+		}
+		
+		Time Time::operator+(const Time & t) const 
+		{
+			Time sum;
+			sum.minutes = minutes + t.minutes;
+			sum.hours = hours + t.hours + sum.minutes / 60;
+			sum.minutes %= 60;
+			return sum;
+		}
+		
+		void Time::Show() const 
+		{
+			std::cout << hours << "hours, " << minutes << " minutes." << endl;
+		}
+		11.2.2 重载限制
+			重载的运算符不必是成员函数，但必须至少有一个操作数是用户定义的类型。
+			1. 重载后的运算符必须至少有一个操作数是用户定义的类型。这将防止用户位标准类型重载运算符。
+			2. 使用运算符时不能违反原运算符的语法规则。
+			3. 不能创建新的运算符
+			4. 不能重载下面的运算符
+				sizeof 
+				. 成员运算符
+				* 成员指针运算符
+				:: 作用域解析运算符
+				?: 条件运算符
+				typeid: 一个RTTI运算符
+				const_cast :强制类型转换运算符
+				dynamic_cast ：强制类型转换运算符
+				reinterpret_cast: 强制类型转换运算符
+				static_cast : 强制类型转换运算符
+			5. 下面的运算符只能通过成员函数进行重载
+				=
+				()
+				[]
+				->
+	11.3 友元			
+		友元是一种访问权限，友元有三种
+		1. 友元函数
+		2. 友元类
+		3. 友元成员函数
+		通过让函数成为类的友元，可以赋予该函数与类的成员函数相同的访问权限。
+		11.3.1 创建友元
+		首先将其原型放在类声明中，并在原型声明前加上关键字friend：
+		friend Time operator*(double m, const Time &t);//goes in class declaration 
+		该原型意味着：
+			1. 虽然operator*()函数是在类声明中声明的，但它不是成员函数，因此不能使用成员运算符来调用；
+			2. 虽然operator*()函数不是成员函数，但它与成员函数的访问权限是相同的。
+		第二步是编写函数定义。因为不是成员函数，所以不需要使用Time::限定符。另外不要在定义中使用关键字friend
+			Time operator*(double m, const Time &t) //friend not used in definition
+			{
+				Time result;
+				long totalminutes = t.hours * mult * 60 + t.minutes * mult;
+				result.hours = totalminutes / 60;
+				result.minutes = totalminutes % 60;
+				return result;
+			}
+		11.3.2 常用的友元：重载<<运算符
+			一个很有用的类特性是，可以对<<运算符进行重载，使之能与cout一起来显示对象的内容。例如：可以使用
+				cout << tirp;// trip 是一个Time对象
+			来显示trip的内容。
+			第一种重载
+			void operator<<(std::ostream & os, const Time & t)
+			{
+				os << t.hours << " hours, " << t.minutes << " minutes.";
+			}
+			第二种重载
+			std::ostream & operator<<(std::ostream & os, const Time & t)
+			{
+				os << t.hours << "hours, " << t.minutes << " minutes";
+				return os;
+			}
+	11.4 重载运算符：作为成员函数还是非成员函数
+		对于很多运算符来说，可以选择使用成员函数或非成员函数来实现运算符重载。非成员函数应是友元函数。
+	11.5 再谈重载：一个矢量类
+		
